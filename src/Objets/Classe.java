@@ -7,6 +7,7 @@ public class Classe {
 	String name;
 	ArrayList<Classe> classes=new ArrayList<Classe>();
 	ArrayList<String> properties=new ArrayList<String>();
+	ArrayList<Element> elements = new ArrayList<Element>();
 	
 	public Classe(String name){
 		this.name=name;
@@ -46,6 +47,16 @@ public class Classe {
 	public void setProperties(ArrayList<String> properties) {
 		this.properties = properties;
 	}
+
+	public ArrayList<Element> getElements() {
+		return elements;
+	}
+
+	public void setElements(ArrayList<Element> elements) {
+		this.elements = elements;
+	}
+	
+	
 		
 		
 }
