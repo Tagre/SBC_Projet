@@ -1,36 +1,41 @@
 package Objets;
 
+import java.util.ArrayList;
+
 public class Classe {
 
-		String Classes[];
-		String Properties[];
+		ArrayList<Classe> classes=new ArrayList<Classe>();
+		ArrayList<String> properties=new ArrayList<String>();
 		
 		public Classe(){
 			
 		}
 		
-		public Classe(String[] Classes, String[] Properties){
-			this.setClasses(Classes);
-			this.setProperties(Properties);
+		public Classe(ArrayList<Classe> classes, ArrayList<String> properties){
+			this.classes=classes;
+			this.properties=properties;
 		}
 		
-		public String[] getClasses(){
-			return this.Classes;
-			
+		public void addElement(Classe classe, String propertie){
+			classes.add(classe);
+			properties.add(propertie);
 		}
-	
-		public String[] getProperties(){
-			return this.Properties;
-			
+
+		public ArrayList<Classe> getClasses() {
+			return classes;
 		}
-		
-		public void setClasses(String[] Classes){
-		      this.Classes = Classes ;
-		   }
-		
-		public void setProperties(String[] Properties){
-		      this.Properties = Properties ;
-		   }
+
+		public ArrayList<String> getProperties() {
+			return properties;
+		}
+
+		public void setClasses(ArrayList<Classe> classes) {
+			this.classes = classes;
+		}
+
+		public void setProperties(ArrayList<String> properties) {
+			this.properties = properties;
+		}
 		
 		
 }
