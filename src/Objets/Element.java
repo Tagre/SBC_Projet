@@ -5,15 +5,25 @@ import java.util.ArrayList;
 
 public class Element {
 	
+	String name;
 	ArrayList<Classe> classes=new ArrayList<Classe>();
 	
-	public Element(){
-		
+	public Element(String name){
+		this.name=name;
 	}
 	
-	public Element(ArrayList<Classe> classes){
+	public Element(String name, ArrayList<Classe> classes){
+		this.name=name;
 		this.classes=classes;
 		
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public ArrayList<Classe> getClasses() {
