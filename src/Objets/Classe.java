@@ -5,7 +5,9 @@ import java.util.ArrayList;
 public class Classe {
 	
 	String name;
-	ArrayList<Classe> classes=new ArrayList<Classe>();
+	ArrayList<Classe> subClasses=new ArrayList<Classe>();
+	ArrayList<Classe> surClasses=new ArrayList<Classe>();
+	ArrayList<Classe> equiClasses=new ArrayList<Classe>();
 	ArrayList<String> properties=new ArrayList<String>();
 	ArrayList<Element> elements = new ArrayList<Element>();
 	
@@ -13,14 +15,38 @@ public class Classe {
 		this.name=name;
 	}
 	
+	public ArrayList<Classe> getSubClasses() {
+		return subClasses;
+	}
+
+	public void setSubClasses(ArrayList<Classe> subClasses) {
+		this.subClasses = subClasses;
+	}
+
+	public ArrayList<Classe> getSurClasses() {
+		return surClasses;
+	}
+
+	public void setSurClasses(ArrayList<Classe> surClasses) {
+		this.surClasses = surClasses;
+	}
+
+	public ArrayList<Classe> getEquiClasses() {
+		return equiClasses;
+	}
+
+	public void setEquiClasses(ArrayList<Classe> equiClasses) {
+		this.equiClasses = equiClasses;
+	}
+
 	public Classe(String name, ArrayList<Classe> classes, ArrayList<String> properties){
 		this.name=name;
-		this.classes=classes;
+		this.subClasses=classes;
 		this.properties=properties;
 	}
 	
 	public void addElement(Classe classe, String propertie){
-		classes.add(classe);
+		subClasses.add(classe);
 		properties.add(propertie);
 	}
 	
@@ -32,16 +58,8 @@ public class Classe {
 		this.name = name;
 	}
 
-	public ArrayList<Classe> getClasses() {
-		return classes;
-	}
-
 	public ArrayList<String> getProperties() {
 		return properties;
-	}
-
-	public void setClasses(ArrayList<Classe> classes) {
-		this.classes = classes;
 	}
 
 	public void setProperties(ArrayList<String> properties) {

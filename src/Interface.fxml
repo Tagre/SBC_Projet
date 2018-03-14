@@ -10,11 +10,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<SplitPane dividerPositions="0.5681362725450901" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfaceControleur">
+<SplitPane dividerPositions="0.5681362725450901" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.152" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfaceControleur">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="520.0">
          <children>
-            <TextField fx:id="TF_ObjetSource" layoutX="106.0" layoutY="75.0" prefHeight="25.0" prefWidth="342.0" AnchorPane.leftAnchor="100.0" />
+            <TextField fx:id="TF_ObjetSource" layoutX="106.0" layoutY="75.0" prefHeight="25.0" prefWidth="273.0" promptText="Rentrez un element ou une classe" AnchorPane.leftAnchor="100.0" />
             <Label layoutX="28.0" layoutY="78.0" text="Objet source" />
             <Label layoutX="178.0" layoutY="20.0" text="SparQl Explorer">
                <font>
@@ -37,42 +37,41 @@
                   <Font name="System Bold" size="25.0" />
                </font>
             </Button>
-            <CheckBox fx:id="CB_SurClasse" layoutX="158.0" layoutY="136.0" mnemonicParsing="false" text="Afficher" />
-            <CheckBox fx:id="CB_SousClasse" layoutX="158.0" layoutY="184.0" mnemonicParsing="false" text="Afficher" />
-            <Label layoutX="257.0" layoutY="134.0" text="Degré lien (nombre)" />
-            <TextField fx:id="TF_SurClasse" layoutX="405.0" layoutY="131.0" prefHeight="25.0" prefWidth="80.0" />
-            <Label layoutX="257.0" layoutY="185.0" text="Degré lien (nombre)" />
-            <TextField fx:id="TF_SousClasse" layoutX="404.0" layoutY="181.0" prefHeight="25.0" prefWidth="80.0" />
+            <CheckBox fx:id="CB_SurClasse" layoutX="158.0" layoutY="136.0" mnemonicParsing="false" selected="true" text="Afficher" />
+            <CheckBox fx:id="CB_SousClasse" layoutX="158.0" layoutY="184.0" mnemonicParsing="false" selected="true" text="Afficher" />
+            <Label layoutX="257.0" layoutY="134.0" text="Nombre affiché" />
+            <TextField fx:id="TF_SurClasse" layoutX="405.0" layoutY="131.0" prefHeight="25.0" prefWidth="80.0" text="10" />
+            <Label layoutX="257.0" layoutY="185.0" text="Nombre affiché" />
+            <TextField fx:id="TF_SousClasse" layoutX="404.0" layoutY="181.0" prefHeight="25.0" prefWidth="80.0" text="10" />
             <Label layoutX="11.0" layoutY="237.0" text="Classe Equivalente">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <CheckBox fx:id="CB_EquiClasse" layoutX="159.0" layoutY="241.0" mnemonicParsing="false" text="Afficher" />
-            <Label layoutX="258.0" layoutY="240.0" text="Degré lien (nombre)" />
-            <TextField fx:id="TF_EquiClasse" layoutX="406.0" layoutY="237.0" prefHeight="25.0" prefWidth="80.0" />
-            <TextField fx:id="TF_Element" layoutX="403.0" layoutY="329.0" prefHeight="25.0" prefWidth="80.0" />
-            <Separator layoutX="23.0" layoutY="293.0" prefHeight="6.0" prefWidth="245.0" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="17.0" />
-            <Label layoutX="39.0" layoutY="328.0" text="Elements">
+            <CheckBox fx:id="CB_EquiClasse" layoutX="159.0" layoutY="241.0" mnemonicParsing="false" selected="true" text="Afficher" />
+            <Label layoutX="258.0" layoutY="240.0" text="Nombre affiché" />
+            <TextField fx:id="TF_EquiClasse" layoutX="402.0" layoutY="237.0" prefHeight="25.0" prefWidth="80.0" text="10" />
+            <TextField fx:id="TF_Element" layoutX="402.0" layoutY="288.0" prefHeight="25.0" prefWidth="80.0" text="10" />
+            <Separator layoutX="20.0" layoutY="337.0" prefHeight="6.0" prefWidth="245.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+            <Label layoutX="36.0" layoutY="288.0" text="Elements">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <CheckBox fx:id="CB_Element" layoutX="158.0" layoutY="333.0" mnemonicParsing="false" text="Afficher" />
-            <Label layoutX="261.0" layoutY="331.0" text="Nombre affiché" />
-            <Label layoutX="37.0" layoutY="437.0" text="Properties">
+            <CheckBox fx:id="CB_Element" layoutX="159.0" layoutY="292.0" mnemonicParsing="false" selected="true" text="Afficher" />
+            <Label layoutX="258.0" layoutY="292.0" text="Nombre affiché" />
+            <Separator layoutX="9.0" layoutY="419.0" prefHeight="6.0" prefWidth="245.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="31.0" />
+            <CheckBox fx:id="CB_EntryElement" layoutX="485.0" layoutY="351.0" mnemonicParsing="false" onAction="#ElementEntry_change" text="Element" />
+            <CheckBox fx:id="CB_EntryClasse" layoutX="499.0" layoutY="128.0" mnemonicParsing="false" onAction="#ClasseEntry_change" text="Classe" />
+            <Label layoutX="46.0" layoutY="364.0" text="Classe">
                <font>
                   <Font size="16.0" />
-               </font>
-            </Label>
-            <CheckBox fx:id="CB_Propertie" layoutX="161.0" layoutY="440.0" mnemonicParsing="false" text="Afficher" />
-            <Separator layoutX="165.0" layoutY="391.0" prefHeight="6.0" prefWidth="245.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
-            <CheckBox fx:id="CB_EntryElement" layoutX="462.0" layoutY="66.0" mnemonicParsing="false" onAction="#ElementEntry_change" text="Element" />
-            <CheckBox fx:id="CB_EntryClasse" layoutX="467.0" layoutY="92.0" mnemonicParsing="false" onAction="#ClasseEntry_change" text="Classe" />
-            <Label layoutX="57.0" layoutY="368.0" text="Classe" />
-            <CheckBox fx:id="CB_Classe" layoutX="158.0" layoutY="368.0" mnemonicParsing="false" text="Afficher" />
-            <Label layoutX="261.0" layoutY="368.0" text="Nombre affiché" />
-            <TextField fx:id="TF_Classe" layoutX="402.0" layoutY="364.0" prefHeight="25.0" prefWidth="80.0" />
+               </font></Label>
+            <CheckBox fx:id="CB_Classe" layoutX="147.0" layoutY="376.0" mnemonicParsing="false" selected="true" text="Afficher" />
+            <Label layoutX="257.0" layoutY="376.0" text="Nombre affiché" />
+            <TextField fx:id="TF_Classe" layoutX="402.0" layoutY="372.0" prefHeight="25.0" prefWidth="80.0" text="10" />
+            <TextField fx:id="TF_degre" layoutX="450.0" layoutY="75.0" prefHeight="25.0" prefWidth="98.0" text="1" />
+            <Label layoutX="455.0" layoutY="50.0" text="Degré recherche" />
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="414.0">
          <children>

@@ -12,7 +12,7 @@ import Objets.Element;
 public class UtilsSparQL1 {
 	
 	/**
-	 * Classe qui permet de chercher les/la classe auquel appartient l'élèment donné en argument
+	 * Classe qui permet de chercher les/la classe auquel appartient l'é§˜é‘ªent donnï¿½ en argument
 	 * @param element
 	 * @throws IOException 
 	 */
@@ -44,7 +44,7 @@ public class UtilsSparQL1 {
 			  
 			strLine = strLine.substring(0, strLine.indexOf(">")-1);
 			  
-			classe.getClasses().add(new Classe(strLine));
+			classe.getSubClasses().add(new Classe(strLine));
 			System.out.println(strLine);
 		}
 		 
