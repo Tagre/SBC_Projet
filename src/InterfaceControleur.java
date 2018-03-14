@@ -58,19 +58,27 @@ public class InterfaceControleur implements Initializable {
 			UtilsSparQL.searchClasses(entry, Integer.parseInt(TF_Classe.getText()));
 			
 			String part="";
-			part=Make_Json_Elem_Part1(entry, 0);
-			
-			part+="],\n  \"nodes\": [\n";
-			part+="	{\"id\": \""+entry.getName().substring(entry.getName().lastIndexOf("/")+1)+"\", \"type\": "+"\"circle\""+", \"label\": \""+entry.getName()+"\"}";
-			part+=",\n";
+			part+="{\n  \"graph\": [],\n  \"links\": [\n";
+			part+=Make_Json_Elem_Part1(entry, 0);
 			
 			int cmpt=entry.getClasses().size()+1;
 			if(Integer.parseInt(TF_degre.getText())==2){
 				for(Classe classe:entry.getClasses()){
-					
+					if(CB_Element.isSelected())
+						UtilsSparQL.searchElement(classe, Integer.parseInt(TF_Element.getText())); cmpt+=classe.getElements().size();
+					if(CB_SurClasse.isSelected())
+						UtilsSparQL.searchSurClasses(classe,  Integer.parseInt(TF_SurClasse.getText()));cmpt+=classe.getSurClasses().size();
+					if(CB_SousClasse.isSelected())
+						UtilsSparQL.searchSubClasses(classe,  Integer.parseInt(TF_SousClasse.getText()));cmpt+=classe.getSubClasses().size();
+					if(CB_EquiClasse.isSelected())
+						UtilsSparQL.searchEquiClasses(classe,  Integer.parseInt(TF_EquiClasse.getText()));cmpt+=classe.getEquiClasses().size();
+					part+=Make_Json_Class_Part1(classe, cmpt);
 				}
 			}
 			
+			part+="],\n  \"nodes\": [\n";
+			part+="	{\"id\": \""+entry.getName().substring(entry.getName().lastIndexOf("/")+1)+"\", \"type\": "+"\"circle\""+", \"label\": \""+entry.getName()+"\"}";
+			part+=",\n";
 			
 			part+=Make_Json_Elem_Part2(entry, 0);
 			
@@ -92,7 +100,8 @@ public class InterfaceControleur implements Initializable {
 				UtilsSparQL.searchEquiClasses(entry,  Integer.parseInt(TF_EquiClasse.getText()));
 			
 			String part="";
-			part=Make_Json_Class_Part1(entry, 0);
+			part+="{\n  \"graph\": [],\n  \"links\": [\n";
+			part+=Make_Json_Class_Part1(entry, 0);
 			
 			part+="],\n  \"nodes\": [\n";
 			part+="	{\"id\": \""+entry.getName().substring(entry.getName().lastIndexOf("/")+1)+"\", \"type\": "+"\"square\""+", \"label\": \""+entry.getName()+"\"}";
@@ -145,7 +154,6 @@ public class InterfaceControleur implements Initializable {
 	
 	public String Make_Json_Elem_Part1(Element element, int cmptElmt) throws IOException{
 		String part1="";
-		part1+="{\n  \"graph\": [],\n  \"links\": [\n";
 	    
 	    for(int i=cmptElmt+1;i<element.getClasses().size()+1;i++){
 	    	part1+="	{\"source\": "+cmptElmt+", \"target\": "+i+", \"weight\": \""+"rdf:type"+"\"}";
@@ -266,7 +274,7 @@ public class InterfaceControleur implements Initializable {
 	
 	private String Make_Json_Class_Part1(Classe entry, int cmptElmt) throws IOException {
 		String part1="";
-		part1+="{\n  \"graph\": [],\n  \"links\": [\n";
+		
 	    
 	    for(int i=cmptElmt+1;i<entry.getElements().size()+1;i++){
 	    	part1+="	{\"source\": "+i+", \"target\": "+cmptElmt+", \"weight\": \""+"rdf:type"+"\"}";
