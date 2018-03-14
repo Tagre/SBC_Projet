@@ -30,10 +30,11 @@ public class InterfaceControleur implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		/*String pathHTML="file:///C:/Users/Tagre/git/SBC_Projet/src/Vizu.html";
+		String pathHTML="file:///C:/Users/Tagre/git/SBC_Projet/src/Vizu.html";
 		webEngine = WV_Graph.getEngine();
 		File file = new File("src/Vizu.html");
-		webEngine.load(file.toURI().toString());*/
+		webEngine.load(file.toURI().toString());
+		CB_EntryElement.setSelected(true);
 	}
 	
 	@FXML
@@ -54,41 +55,42 @@ public class InterfaceControleur implements Initializable {
 		if(CB_EntryElement.isSelected()){
 			Element entry=new Element(TF_ObjetSource.getText());
 			UtilsSparQL.searchClasses(entry, Integer.parseInt(TF_Classe.getText()));
-			Make_Json(entry, 0);
+			Make_Json_Elem(entry, 0);
 		} else if (CB_EntryClasse.isSelected()){
+			Classe entry=new Classe(TF_ObjetSource.getText());
+			UtilsSparQL.searchElement(entry, Integer.parseInt(TF_Element.getText()));
+			Make_Json(entry, 0);
 			
 		}
-		String pathHTML="file:///C:/Users/Tagre/git/SBC_Projet/src/Vizu.html";
-		webEngine = WV_Graph.getEngine();
-		File file = new File("src/Vizu.html");
-		webEngine.load(file.toURI().toString());
+		webEngine.reload();
 		
 	}
 	
-	public void Make_Json(Element element, int cmptElmt) throws IOException{
+	public void Make_Json_Elem(Element element, int cmptElmt) throws IOException{
 		File file = new File("src/data.json");
 	    BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 	    bw.write("{\n  \"graph\": [],\n  \"links\": [\n");
 	    
 	    for(int i=cmptElmt+1;i<element.getClasses().size()+1;i++){
-	      bw.write("	{\"source\": "+i+", \"target\": "+cmptElmt+", \"weight\": \""+"propriété(a faire)"+"\"}");
+	      bw.write("	{\"source\": "+cmptElmt+", \"target\": "+i+", \"weight\": \""+"propriété(a faire)"+"\"}");
 	      if(i!=element.getClasses().size())
 	        bw.write(",\n");
 	    }
 	    bw.write("],\n  \"nodes\": [\n");
 	    
 	    
-	    bw.write("	{\"id\": \""+element.getName()+"\", \"type\": "+"\"circle\""+", \"label\": \""+element.getName()+"\"}");
+	    bw.write("	{\"id\": \""+element.getName().substring(element.getName().lastIndexOf("/")+1)+"\", \"type\": "+"\"circle\""+", \"label\": \""+element.getName()+"\"}");
 	    bw.write(",\n");
 	    
 	    for(int i=0;i<element.getClasses().size();i++){
 	      //mettre circle ou square selon si label ou non **A FAIRE**
-	      bw.write("	{\"id\": \""+element.getClasses().get(i).getName()+"\", \"type\": "+"\"square\""+", \"label\": \""+element.getClasses().get(i).getName()+"\"}");
-	      if(i!=element.getClasses().size()-1){
-	        bw.write(",\n");
-	      }
+	    	String name=element.getClasses().get(i).getName();
+	    	bw.write("	{\"id\": \""+name.substring(name.lastIndexOf("/")+1)+"\", \"type\": "+"\"square\""+", \"label\": \""+element.getClasses().get(i).getName()+"\"}");
+	    	if(i!=element.getClasses().size()-1){
+	    		bw.write(",\n");
+	    	}
 	    }
-	    bw.write("],\n  \"directed\": false,\n  \"multigraph\": true\n}");
+	    bw.write("],\n  \"directed\": true,\n  \"multigraph\": false\n}");
 	    bw.close();
 		System.out.println("Json construit");
 	}
