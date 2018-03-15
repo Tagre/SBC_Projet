@@ -77,10 +77,14 @@ public class InterfaceControleur implements Initializable {
 						UtilsSparQL.searchSubClasses(classe,  Integer.parseInt(TF_SousClasse.getText()));cmpt2+=classe.getSubClasses().size();
 					if(CB_EquiClasse.isSelected())
 						UtilsSparQL.searchEquiClasses(classe,  Integer.parseInt(TF_EquiClasse.getText()));cmpt2+=classe.getEquiClasses().size();
+					System.out.println(part);
 					part+=Make_Json_Class_Part1(classe, cmpt, entry.getClasses().indexOf(classe)+1);
 					cmpt+=cmpt2;
-					if (cmpt2>0 && entry.getClasses().indexOf(classe)+1!=entry.getClasses().size())
+					if (cmpt2>0 && entry.getClasses().indexOf(classe)+1!=entry.getClasses().size() && !part.endsWith(",\n")){
+						
 						part+=",\n";
+					}
+						
 				}
 			}
 			
@@ -299,7 +303,7 @@ public class InterfaceControleur implements Initializable {
 	    System.out.println("cmptElmt="+cmptElmt);
 	    for(int i=cmptElmt+1;i<entry.getElements().size()+1+cmptElmt;i++){
 	    	part1+="	{\"source\": "+i+", \"target\": "+cmptClass+", \"weight\": \""+"rdf:type"+"\"}";
-	      if(i!=entry.getElements().size()+cmptElmt)
+	      if(i!=entry.getElements().size()+cmptElmt && !part1.endsWith(",\n"))
 	    	  part1+=",\n";
 	    }
 	    
@@ -309,7 +313,7 @@ public class InterfaceControleur implements Initializable {
 	    	part1+=",\n";
 	    for(int i=cmpt+1;i<entry.getSurClasses().size()+1+cmpt;i++){
 	    	part1+="	{\"source\": "+cmptClass+", \"target\": "+i+", \"weight\": \""+"rdfs:subClassOf"+"\"}";
-		      if(i!=entry.getSurClasses().size()+cmpt)
+		      if(i!=entry.getSurClasses().size()+cmpt && !part1.endsWith(",\n"))
 		    	  part1+=",\n";
 		    }
 	    
@@ -319,7 +323,7 @@ public class InterfaceControleur implements Initializable {
 	    	part1+=",\n";
 	    for(int i=cmpt+1;i<entry.getSubClasses().size()+1+cmpt;i++){
 	    	part1+="	{\"source\": "+i+", \"target\": "+cmptClass+", \"weight\": \""+"rdfs:subClassOf"+"\"}";
-		    if(i!=entry.getSubClasses().size()+cmpt)
+		    if(i!=entry.getSubClasses().size()+cmpt && !part1.endsWith(",\n"))
 		    	part1+=",\n";
 		    }
 	    
@@ -329,7 +333,7 @@ public class InterfaceControleur implements Initializable {
 	    	part1+=",\n";
 	    for(int i=cmpt+1;i<entry.getEquiClasses().size()+1+cmpt;i++){
 	    	part1+="	{\"source\": "+cmptClass+", \"target\": "+i+", \"weight\": \""+"owl:equivalentClass"+"\"}";
-		      if(i!=entry.getEquiClasses().size()+cmpt)
+		      if(i!=entry.getEquiClasses().size()+cmpt && !part1.endsWith(",\n"))
 		    	  part1+=",\n";
 		    }
 		return part1;
