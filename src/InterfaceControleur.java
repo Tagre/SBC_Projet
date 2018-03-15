@@ -61,18 +61,26 @@ public class InterfaceControleur implements Initializable {
 			part+="{\n  \"graph\": [],\n  \"links\": [\n";
 			part+=Make_Json_Elem_Part1(entry, 0);
 			
-			int cmpt=entry.getClasses().size()+1;
+			
+			int cmpt=entry.getClasses().size();
+			
 			if(Integer.parseInt(TF_degre.getText())==2){
+				part+=",\n";
 				for(Classe classe:entry.getClasses()){
+					System.out.println("cmpt ="+cmpt);
+					int cmpt2=0;
 					if(CB_Element.isSelected())
-						UtilsSparQL.searchElement(classe, Integer.parseInt(TF_Element.getText())); cmpt+=classe.getElements().size();
+						UtilsSparQL.searchElement(classe, Integer.parseInt(TF_Element.getText())); cmpt2+=classe.getElements().size();
 					if(CB_SurClasse.isSelected())
-						UtilsSparQL.searchSurClasses(classe,  Integer.parseInt(TF_SurClasse.getText()));cmpt+=classe.getSurClasses().size();
+						UtilsSparQL.searchSurClasses(classe,  Integer.parseInt(TF_SurClasse.getText()));cmpt2+=classe.getSurClasses().size();
 					if(CB_SousClasse.isSelected())
-						UtilsSparQL.searchSubClasses(classe,  Integer.parseInt(TF_SousClasse.getText()));cmpt+=classe.getSubClasses().size();
+						UtilsSparQL.searchSubClasses(classe,  Integer.parseInt(TF_SousClasse.getText()));cmpt2+=classe.getSubClasses().size();
 					if(CB_EquiClasse.isSelected())
-						UtilsSparQL.searchEquiClasses(classe,  Integer.parseInt(TF_EquiClasse.getText()));cmpt+=classe.getEquiClasses().size();
-					part+=Make_Json_Class_Part1(classe, cmpt);
+						UtilsSparQL.searchEquiClasses(classe,  Integer.parseInt(TF_EquiClasse.getText()));cmpt2+=classe.getEquiClasses().size();
+					part+=Make_Json_Class_Part1(classe, cmpt, entry.getClasses().indexOf(classe)+1);
+					cmpt+=cmpt2;
+					if (cmpt2>0 && entry.getClasses().indexOf(classe)+1!=entry.getClasses().size())
+						part+=",\n";
 				}
 			}
 			
@@ -81,6 +89,17 @@ public class InterfaceControleur implements Initializable {
 			part+=",\n";
 			
 			part+=Make_Json_Elem_Part2(entry, 0);
+			
+			if(Integer.parseInt(TF_degre.getText())==2){
+				part+=",\n";
+				for(Classe classe:entry.getClasses()){
+					part+=Make_Json_Class_Part2(classe,0);
+					if (entry.getClasses().indexOf(classe)+1!=entry.getClasses().size())
+						part+=",\n";
+				}
+			}
+			
+			part+="],\n  \"directed\": true,\n  \"multigraph\": false\n}";
 			
 			File file = new File("src/data.json");
 		    BufferedWriter bw = new BufferedWriter(new FileWriter(file));
@@ -101,13 +120,15 @@ public class InterfaceControleur implements Initializable {
 			
 			String part="";
 			part+="{\n  \"graph\": [],\n  \"links\": [\n";
-			part+=Make_Json_Class_Part1(entry, 0);
+			part+=Make_Json_Class_Part1(entry, 0 ,0);
 			
 			part+="],\n  \"nodes\": [\n";
 			part+="	{\"id\": \""+entry.getName().substring(entry.getName().lastIndexOf("/")+1)+"\", \"type\": "+"\"square\""+", \"label\": \""+entry.getName()+"\"}";
 			part+=",\n";
 			
 			part+=Make_Json_Class_Part2(entry, 0);
+			
+			part+="],\n  \"directed\": true,\n  \"multigraph\": false\n}";
 			
 			File file = new File("src/data.json");
 		    BufferedWriter bw = new BufferedWriter(new FileWriter(file));
@@ -173,7 +194,7 @@ public class InterfaceControleur implements Initializable {
 		    		part2+=",\n";
 		    	}
 		    }
-		part2+="],\n  \"directed\": true,\n  \"multigraph\": false\n}";
+		
 		return part2;
 	}
 		
@@ -272,42 +293,42 @@ public class InterfaceControleur implements Initializable {
 		
 	}
 	
-	private String Make_Json_Class_Part1(Classe entry, int cmptElmt) throws IOException {
+	private String Make_Json_Class_Part1(Classe entry, int cmptElmt, int cmptClass) throws IOException {
 		String part1="";
 		
-	    
-	    for(int i=cmptElmt+1;i<entry.getElements().size()+1;i++){
-	    	part1+="	{\"source\": "+i+", \"target\": "+cmptElmt+", \"weight\": \""+"rdf:type"+"\"}";
-	      if(i!=entry.getElements().size())
+	    System.out.println("cmptElmt="+cmptElmt);
+	    for(int i=cmptElmt+1;i<entry.getElements().size()+1+cmptElmt;i++){
+	    	part1+="	{\"source\": "+i+", \"target\": "+cmptClass+", \"weight\": \""+"rdf:type"+"\"}";
+	      if(i!=entry.getElements().size()+cmptElmt)
 	    	  part1+=",\n";
 	    }
 	    
-	    int cmpt=entry.getElements().size();
+	    int cmpt=entry.getElements().size()+cmptElmt;
 	    
-	    if(entry.getSurClasses().size()>0 && CB_Element.isSelected())
+	    if(entry.getSurClasses().size()>0 && !part1.endsWith(",\n"))
 	    	part1+=",\n";
 	    for(int i=cmpt+1;i<entry.getSurClasses().size()+1+cmpt;i++){
-	    	part1+="	{\"source\": "+cmptElmt+", \"target\": "+i+", \"weight\": \""+"rdfs:subClassOf"+"\"}";
+	    	part1+="	{\"source\": "+cmptClass+", \"target\": "+i+", \"weight\": \""+"rdfs:subClassOf"+"\"}";
 		      if(i!=entry.getSurClasses().size()+cmpt)
 		    	  part1+=",\n";
 		    }
 	    
 	    cmpt=cmpt+entry.getSurClasses().size();
 	    
-	    if(entry.getSubClasses().size()>0 && CB_SurClasse.isSelected())
+	    if(entry.getSubClasses().size()>0 && !part1.endsWith(",\n"))
 	    	part1+=",\n";
 	    for(int i=cmpt+1;i<entry.getSubClasses().size()+1+cmpt;i++){
-	    	part1+="	{\"source\": "+i+", \"target\": "+cmptElmt+", \"weight\": \""+"rdfs:subClassOf"+"\"}";
+	    	part1+="	{\"source\": "+i+", \"target\": "+cmptClass+", \"weight\": \""+"rdfs:subClassOf"+"\"}";
 		    if(i!=entry.getSubClasses().size()+cmpt)
 		    	part1+=",\n";
 		    }
 	    
 	    cmpt=cmpt+entry.getSubClasses().size();
 	    
-	    if(entry.getEquiClasses().size()>0 && CB_EquiClasse.isSelected())
+	    if(entry.getEquiClasses().size()>0 && !part1.endsWith(",\n"))
 	    	part1+=",\n";
 	    for(int i=cmpt+1;i<entry.getEquiClasses().size()+1+cmpt;i++){
-	    	part1+="	{\"source\": "+cmptElmt+", \"target\": "+i+", \"weight\": \""+"owl:equivalentClass"+"\"}";
+	    	part1+="	{\"source\": "+cmptClass+", \"target\": "+i+", \"weight\": \""+"owl:equivalentClass"+"\"}";
 		      if(i!=entry.getEquiClasses().size()+cmpt)
 		    	  part1+=",\n";
 		    }
@@ -325,7 +346,7 @@ public class InterfaceControleur implements Initializable {
 		    	}
 		    }
 		    
-		    if(entry.getSurClasses().size()>0 && CB_Element.isSelected())
+		    if(entry.getSurClasses().size()>0 && !part2.endsWith(",\n"))
 		    	part2+=",\n";
 		    for(int i=0;i<entry.getSurClasses().size();i++){
 			      //mettre circle ou square selon si label ou non **A FAIRE**
@@ -336,7 +357,7 @@ public class InterfaceControleur implements Initializable {
 			    	}
 			}
 		    
-		    if(entry.getSubClasses().size()>0 && CB_SurClasse.isSelected())
+		    if(entry.getSubClasses().size()>0  && !part2.endsWith(",\n"))
 		    	part2+=",\n";
 		    for(int i=0;i<entry.getSubClasses().size();i++){
 			      //mettre circle ou square selon si label ou non **A FAIRE**
@@ -347,7 +368,7 @@ public class InterfaceControleur implements Initializable {
 			    	}
 			}
 		    
-		    if(entry.getEquiClasses().size()>0 && CB_SousClasse.isSelected())
+		    if(entry.getEquiClasses().size()>0  && !part2.endsWith(",\n"))
 		    	part2+=",\n";
 		    for(int i=0;i<entry.getEquiClasses().size();i++){
 			      //mettre circle ou square selon si label ou non **A FAIRE**
@@ -359,7 +380,7 @@ public class InterfaceControleur implements Initializable {
 			}
 		    
 		    
-		    part2+="],\n  \"directed\": true,\n  \"multigraph\": false\n}";
+		    
 		    return part2;
 	}
 
